@@ -1,0 +1,73 @@
+,simple_identifier,function_value_parameters,user_type,modifiers,function_body,type_parameters,flags
+0,main,,,,{},,
+1,test,,,,{},<T>,is_test
+2,bar,foo: Int,T,,{},<T: Int>,
+3,main,args: Array<String>,,,{},,
+4,sum,"a: Int, b: Int",,,= a + b,,is_single_expression
+5,answerToTheUltimateQuestionOfLifeTheUniverseAndEverything,,Int,,= 42,,is_single_expression
+6,foo,p0: Int,Long,,"{
+  return p0.toLong()
+}",,
+7,boo,,,override,= foo(),,is_single_expression
+8,`this is a test function`,,,,= true,,"is_single_expression, is_test"
+9,readTypeAlias,"typeAliasProto: ProtoBuf.TypeAlias, packageName: CirPackageName, strings: NameResolver, types: TypeTable, consumer: (CirEntityId, CirProvided.Classifier) -> Unit",,"private, inline","{
+    val typeAliasId = CirEntityId.create(packageName, CirName.create(strings.getString(typeAliasProto.name)))
+
+    val typeParameterNameToIndex = HashMap<Int, Int>()
+    val typeParameters = readTypeParameters(
+        typeParameterProtos = typeAliasProto.typeParameterList,
+        typeParameterIndexOffset = 0,
+        nameToIndexMapper = typeParameterNameToIndex::set
+    )
+
+    val underlyingType = readType(typeAliasProto.underlyingType(types), TypeReadContext(strings, types, typeParameterNameToIndex))
+    val typeAlias = CirProvided.TypeAlias(typeParameters, underlyingType as CirProvided.ClassOrTypeAliasType)
+
+    consumer(typeAliasId, typeAlias)
+}",,
+10,test,"a: Inv<A>, b: Inv<B>",,,"{
+    val intersectionType = intersection(a, b)
+
+    use(intersectionType) { intersectionType }
+    useNested(intersectionType) { Inv(intersectionType) }
+
+    var d by createDelegate { intersectionType }
+}",,is_test
+11,testSum,,,@Test,"{
+    val expected = 42
+    assertEquals(expected, testSample.sum(40, 2))
+}",,is_test
+12,sum,"a: Int, b: Int",,,= a + b,,is_single_expression
+13,answerToTheUltimateQuestionOfLifeTheUniverseAndEverything,,Int,,= 42,,is_single_expression
+14,foo,p0: Int,Long,,"{
+  return p0.toLong()
+}",,
+15,boo,,,override,= foo(),,is_single_expression
+16,`this is a test function`,,,,= true,,"is_single_expression, is_test"
+17,readTypeAlias,"typeAliasProto: ProtoBuf.TypeAlias, packageName: CirPackageName, strings: NameResolver, types: TypeTable, consumer: (CirEntityId, CirProvided.Classifier) -> Unit",,"private, inline","{
+    val typeAliasId = CirEntityId.create(packageName, CirName.create(strings.getString(typeAliasProto.name)))
+
+    val typeParameterNameToIndex = HashMap<Int, Int>()
+    val typeParameters = readTypeParameters(
+        typeParameterProtos = typeAliasProto.typeParameterList,
+        typeParameterIndexOffset = 0,
+        nameToIndexMapper = typeParameterNameToIndex::set
+    )
+
+    val underlyingType = readType(typeAliasProto.underlyingType(types), TypeReadContext(strings, types, typeParameterNameToIndex))
+    val typeAlias = CirProvided.TypeAlias(typeParameters, underlyingType as CirProvided.ClassOrTypeAliasType)
+
+    consumer(typeAliasId, typeAlias)
+}",,
+18,test,"a: Inv<A>, b: Inv<B>",,,"{
+    val intersectionType = intersection(a, b)
+
+    use(intersectionType) { intersectionType }
+    useNested(intersectionType) { Inv(intersectionType) }
+
+    var d by createDelegate { intersectionType }
+}",,is_test
+19,testSum,,,@Test,"{
+    val expected = 42
+    assertEquals(expected, testSample.sum(40, 2))
+}",,is_test
