@@ -1,0 +1,1502 @@
+,signature,body,docstring
+0,fun doWhileReturn(),"{
+    var i = 0
+    do {
+        i++
+        global += ""A""
+    }
+    while(if (i<2) true else { global += "":return:""; return "":doWhileReturn:""})
+    return "":doWhileReturn:after:""
+}","This function iterates with a do-while loop, incrementing a counter and appending ""A"" to a global variable until the counter is less than 2. If the condition fails, it appends "":return:"" to the global variable and returns "":doWhileReturn:"". Otherwise, it returns "":doWhileReturn:after:""."
+1,fun contains(ch: Int),"{
+                            return curAlt xor nb!!.contains(ch) && another.contains(ch)
+                        }","This function returns a logical operation involving three operands: curAlt, nb, and another, checking if curAlt xor nb contains the specified integer and if another contains the integer."
+2,fun testRequireNotNullLambda(x: StringHolder),"{
+    var a = x
+    val b = a
+    callLambdaWithoutContract { a = StringHolder("""") }
+    require(a.value != null)
+    x.value<!UNSAFE_CALL!>.<!>length
+    require(b.value != null)
+    x.value<!UNSAFE_CALL!>.<!>length
+}","This function assigns a string value from an object x to a variable a, calls a lambda that assigns an empty string to a, requires that a value is not null, accesses a property of x, and repeats the same process with another variable b."
+3,fun <reified R : Number>narrow(),"= when (R::class.java) {
+    java.lang.Byte::class.java -> this.toByte() as R
+    else -> this.invalidNarrowing()
+}","This generic function performs type-based narrowing, returning a casted value based on the reified type parameter R, handling Byte specifically and returning an invalid value otherwise."
+4,"fun <K : L, L : N, N>main()","{
+    val foo = Foo<K>()
+    Bar<Out<String>>().takeFoo(foo) // error in 1.3.72, no error in 1.4.31
+}","This generic function instantiates objects of generic types Foo and Bar, and calls a method on Bar with an argument of type Foo."
+5,fun decompose(expression: JsExpression?),"=
+                when (expression) {
+                    is JsInvocation -> decomposeCreateFunctionCall(expression)
+                    else -> null
+                }","This function decomposes a JsExpression, returning null if the expression is not a JsInvocation."
+6,fun main(),"{
+    val x = bar() { foo() } // OK with default current 1.5/1.6, Error with DisableCompatibilityModeForNewInference enabled, Ok in K2
+    x.<!UNRESOLVED_REFERENCE!>length<!>
+}","This function assigns the result of a function call to a variable x, then attempts to access a property on x which results in an unresolved reference error."
+7,fun visitCall(expression: IrCall),"{
+                val newExpression = transformCall(expression, builder)
+                newExpression.transformChildrenVoid(this)
+                return newExpression
+            }",This function transforms an IrCall expression using a provided builder and recursively transforms its children before returning the new expression.
+8,fun testDeletingFileOnSuccess(),"{
+        val file = workingDir.resolve(""1.txt"")
+        Files.write(file, ""something"".toByteArray())
+        useTransaction {
+            deleteFile(file)
+            markAsSuccessful()
+        }
+        assertFalse(Files.exists(file))
+    }","This function tests file deletion within a transaction, ensuring that a file is deleted and does not exist after the transaction."
+9,fun testKeyAtRootLevelAndCallsAfter(),"= controlFlow(
+        """"""
+            @NonRestartableComposable @Composable
+            fun Example(x: Int) {
+                key(x) {
+                    A(a)
+                }
+                A(b)
+            }
+        """"""
+    )","This function encapsulates control flow within a Composable function, including a key and a function call, returning a control flow structure."
+10,"fun testEncode(bytes: ByteArray, symbols: String)","{
+            testEncode(Base64, bytes, symbols)
+            testEncode(Base64.UrlSafe, bytes, symbols)
+            testEncode(Base64.Mime, bytes, symbols)
+        }",This function tests Base64 encoding with different options using a provided ByteArray and symbols.
+11,fun testArrayElementUpdate(),"{
+        refArr[0].lazySet(Box(5))
+        refArr[0].update { cur -> cur?.let { Box(cur.n * 10) } }
+        assertEquals(refArr[0].value!!.n, 50)
+    }","This function updates elements of an array of references, setting a new value and then updating it with a transformation function before asserting the expected value."
+12,fun case_3(),"{
+    var x: Int? = 10
+    val y: Int?
+    y = x
+    y!!
+    <!DEBUG_INFO_EXPRESSION_TYPE(""kotlin.Int?"")!>x<!>
+    <!DEBUG_INFO_EXPRESSION_TYPE(""kotlin.Int?"")!>x<!><!UNSAFE_CALL!>.<!>inv()
+}","This function tests nullable types, assigning a nullable integer to a variable, then copying it to another variable, invoking a method on the copied variable and the original variable, which results in an unsafe call error."
+13,"fun equalTypes(a: KotlinType, b: KotlinType)","=
+        NewKotlinTypeChecker.Default.run {
+            createClassicTypeCheckerState(isErrorTypeEqualsToAnything = true).equalTypes(a.unwrap(), b.unwrap())
+        }",This function checks the equality of two KotlinType objects using the KotlinTypeChecker.
+14,fun render(options: DumpIrTreeOptions = DumpIrTreeOptions()),"=
+    when (this) {
+        is IrStarProjection -> ""*""
+        is IrTypeProjection -> ""$variance ${type.render(options)}""
+    }","This function renders an IrTypeProjection object based on its type and variance, returning a string representation."
+15,fun getGeneralInapplicabilityDiagnostic(forceWarning: Boolean),"= when {
+        forceWarning -> FirErrors.EQUALITY_NOT_APPLICABLE_WARNING
+        else -> FirErrors.EQUALITY_NOT_APPLICABLE
+    }","This function returns a diagnostic based on a boolean flag, either a warning or an error."
+16,"fun test2(a: Inv<*>?, b: Inv<*>)","{
+    generic(a ?: b)
+    generic(if (a != null) <!DEBUG_INFO_SMARTCAST!>a<!> else b)
+    generic(a!!)
+}","This function tests smart casts and generics with nullable and non-nullable types, passing arguments to a generic function."
+17,fun box(),"{
+    var l = IntArray(1)
+    l[0.toLong()] = 4
+    l[0.toLong()] += 6
+    return if (l[0.toLong()] == 10) ""OK"" else ""Fail""
+}","This function tests array indexing and updating, initializing an array, setting and updating its element, and returning a success or failure message."
+18,fun test3WithCaptured(),"{
+    val inlineX = Inline()
+    var c = 11.0;
+    return inlineX.foo2Param(15.0, { z1: Int, z2: Double -> z1 + z2 + c}, 10)
+}","This function tests inline functions with captured variables, invoking a method with parameters including a lambda that uses a captured variable."
+19,"fun contains(registeredDirectives: RegisteredDirectives, directivesInTestFile: Set<Directive>)","{
+        if (directivesInTestFile.isEmpty()) return true
+        return registeredDirectives.filter { it in directivesToConsider && it in directivesInTestFile }.toSet() == directives
+    }","This function checks if a set of directives in a test file matches a subset of registered directives, returning true if they match."
+20,"fun copyOfRange(fromIndex: Int, toIndex: Int)","{
+    checkCopyOfRangeArguments(fromIndex, toIndex, size)
+    return copyOfUninitializedElements(fromIndex, toIndex)
+}",This function checks the validity of arguments for array copying and returns a copy of a range of elements from the array.
+21,fun computeCustomKlibs(enforcedProperties: EnforcedProperties),"=
+        CustomKlibs(
+            ClassLevelProperty.CUSTOM_KLIBS.readValue(
+                enforcedProperties,
+                { it.split(File.pathSeparatorChar).mapToSet(::File) },
+                default = emptySet()
+            )
+        )","This function computes custom Kotlin libraries based on enforced properties, reading a value and mapping it to a set of files."
+22,fun Test7(),"{
+        Test8@ while (true) {
+            <!NOT_A_LOOP_LABEL!>break@Test7<!>
+        }
+
+        Test7@ while (true) {
+            <!NOT_A_LOOP_LABEL!>break@Test8<!>
+        }
+    }",This function contains two labeled while loops with breaks to demonstrate label usage.
+23,fun getExplicitDispatchReceiver(explicitReceiverKind: ExplicitReceiverKind),"= when (explicitReceiverKind) {
+        ExplicitReceiverKind.DISPATCH_RECEIVER -> explicitReceiver
+        ExplicitReceiverKind.BOTH_RECEIVERS -> dispatchReceiverForInvokeExtension
+        else -> null
+    }",This function returns a specific receiver based on the kind of explicit receiver provided.
+24,fun visitDestructuringDeclaration(destructuringDeclaration: KtDestructuringDeclaration),"{
+                    if (destructuringDeclaration.containingKtFile.isScript()) {
+                        destructuringDeclarations.add(destructuringDeclaration)
+                    }
+                }",This function adds destructuring declarations to a list if they belong to a script file.
+25,fun box(),"{
+    if (isExperimentalMM()) {
+        assertEquals(Platform.memoryModel, MemoryModel.EXPERIMENTAL)
+    } else {
+        assertNotEquals(Platform.memoryModel, MemoryModel.EXPERIMENTAL)
+    }
+    return ""OK""
+}","Checks if the memory model is experimental and returns ""OK"" if true, otherwise asserts inequality."
+26,fun async(f: suspend () -> Unit),"{
+    f.startCoroutine(object : Continuation<Unit> {
+        override fun resumeWith(x: Result<Unit>) {
+            result += ""done;""
+            proceed = null
+        }
+        override val context = EmptyCoroutineContext
+    })
+}",Asynchronously executes a suspended function and updates a result upon completion.
+27,fun foo(),"{
+    var s: String?
+    s = ""Test""
+    try {
+        s = null
+    } catch (ex: Exception) {}
+    s<!UNSAFE_CALL!>.<!>hashCode()
+}","Assigns a string variable, attempts to set it to null within a try-catch block, then calls its hashCode()."
+28,fun createInstanceOfLightScript(script: KtScript),"{
+        val module = script.getModuleIfSupportEnabled() ?: return null
+        return SymbolLightClassForScript(script, module)
+    }",Creates an instance of SymbolLightClassForScript based on the provided KtScript.
+29,"fun foo(x: String?, z: String?)","{
+    do {
+        gav(z!!, if (x == null) break else x)
+    } while (bar())
+    // z is not null because of z!!
+    z.length
+    // x is null because of the break
+    return x<!UNSAFE_CALL!>.<!>length
+}","Iteratively invokes a function with non-null and potentially null arguments, then accesses properties based on their nullability."
+30,fun box(),"{
+    val expected = 3600000L
+    return if (hourInMilliseconds == expected) ""OK"" else ""Fail: $hourInMilliseconds""
+}","Checks if a value equals an expected long value and returns ""OK"" if true."
+31,fun main(args: Array<String>),"{
+    System.setProperty(""java.awt.headless"", ""true"")
+    generate(args) {
+        generateTests()
+    }
+}","Sets a system property, then generates tests using the provided arguments."
+32,fun isIteratorHasNext(),"=
+    callableName.asString() == ""hasNext"" && className?.asString()?.endsWith(""Iterator"") == true
+            && packageName == StandardClassIds.BASE_COLLECTIONS_PACKAGE","Checks if a callable name equals ""hasNext"" and its class name ends with ""Iterator"" and its package name is a standard collection package."
+33,fun test(),"{
+        <!NON_PUBLIC_CALL_FROM_PUBLIC_INLINE!>privateProperty<!>
+        <!NON_PUBLIC_CALL_FROM_PUBLIC_INLINE!>privateFun<!>()
+    }",Calls private properties and functions from within a public function.
+34,fun box(),"{
+    val xs = Array(1) { """" }
+    try {
+        useTX(xs) { J.notNullString() }
+    } catch (e: NullPointerException) {
+        return ""OK""
+    }
+    throw AssertionError(""NullPointerException expected"")
+}",Initializes an array and throws an exception if an expected NullPointerException is not caught.
+35,fun test(t: Tr<out String>),"{
+    // resolved as t.v = t.v + null!!, where type of right operand is String,
+    // so TYPE_MISMATCH: String is not <: of Captured(out String)
+    <!SETTER_PROJECTED_OUT!>t.v<!> += null!!
+}",Attempts an unsupported operation on a captured generic type.
+36,fun getSyntheticCompanionObjectNameIfNeeded(thisDescriptor: ClassDescriptor),"=
+                    instances.firstNotNullOfOrNull { withLinkageErrorLogger(it) { getSyntheticCompanionObjectNameIfNeeded(thisDescriptor) } }",Retrieves a synthetic companion object's name if available.
+37,"fun ternaryOperation(insn: AbstractInsnNode, value1: BasicValue?, value2: BasicValue?, value3: BasicValue?)","{
+        markUnspillable(value1)
+        markUnspillable(value2)
+        markUnspillable(value3)
+        return super.ternaryOperation(insn, value1, value2, value3)
+    }",Marks values unspillable and invokes a super method.
+38,fun phaseSpecificCheckIsResolved(target: FirElementWithResolveState),"{
+        if (target !is FirContractDescriptionOwner) return
+        checkContractDescriptionIsResolved(target)
+    }",Performs a specific check on resolved FIR elements.
+39,fun testAssertEqualsFloatFails(),"{
+        checkFailedAssertion { assertEquals(0.01f, 1.03f, .01f) }
+
+        // negative absoluteTolerance
+        assertFailsWith<IllegalArgumentException> { assertEquals(0.01f, 1.03f, -5.0f) }
+    }",Tests assertions for equality with floats.
+40,fun test(),"{
+        fun foo(x: String) {
+            s += x
+        }
+
+        run {
+            foo(""O"")
+            foo(foo, 1)
+        }
+    }",Defines a nested function and invokes it with different arguments.
+41,"fun <reified T, reified R, C : MutableCollection<in R>>filterIsInstanceMapTo(destination: C, transform: (T) -> R)","{
+    for (element in this) {
+        if (element is T) {
+            destination.add(transform(element))
+        }
+    }
+    return destination
+}",Filters elements of a collection by type and maps them to a destination collection.
+42,"fun <reified P : PsiElement, A, B>deprecationError2(featureForError: LanguageFeature, positioningStrategy: AbstractSourceElementPositioningStrategy = SourceElementPositioningStrategies.DEFAULT)","{
+    return DeprecationDiagnosticFactory2DelegateProvider(featureForError, positioningStrategy, P::class)
+}",Constructs a DeprecationDiagnosticFactory2DelegateProvider.
+43,"fun set(modifier: Modifier, value: Boolean)","{
+        flags = if (value) {
+            flags or modifier.mask
+        } else {
+            flags and modifier.mask.inv()
+        }
+    }",Sets or clears a flag based on a modifier value.
+44,fun testXcodeUseFrameworksWithCustomFrameworkNameSingle(gradleVersion: GradleVersion),"= doTestXcode(
+        cocoapodsSingleKtPod,
+        gradleVersion,
+        ImportMode.FRAMEWORKS,
+        ""ios-app"",
+        mapOf(""kotlin-library"" to ""MultiplatformLibrary"")
+    )",Performs a test for Xcode usage with custom framework names.
+45,fun lt(version: Version),"=
+        NpmRange(
+            endVersion = version.toSemVer(),
+            endInclusive = false
+        )",Constructs an NpmRange based on a version.
+46,fun getProtocols(type: CValue<CXType>),"{
+        val num = clang_Type_getNumProtocols(type)
+        return (0 until num).map { index ->
+            getObjCProtocolAt(clang_Type_getProtocol(type, index))
+        }
+    }",Retrieves protocols associated with a given type.
+47,"fun invoke(expression: IrFunctionAccessExpression, codegen: ExpressionCodegen, data: BlockInfo)","{
+        val (left, right) = expression.receiverAndArgs()
+        return BooleanDisjunction(left, right, codegen, data)
+    }",Invokes a BooleanDisjunction with expression details.
+48,fun box(),"{
+    var prop: Int by Delegate()
+    if (prop != 1) return ""fail get 1""
+    run { prop = 2 }
+    if (prop != 2) return ""fail get 2""
+    return run { if (prop != 2) ""fail get 3"" else ""OK"" }
+}",Tests property delegation with a custom delegate.
+49,fun withLock(),"{
+        val lock = SimpleLock()
+        val result = lock.withLock {
+            ""OK""
+        }
+        assertEquals(""OK"", result)
+    }","Initializes a lock, performs an action within its lock scope, and asserts the result."
+50,fun buildDestructuringDeclarationSymbol(firSymbol: FirVariableSymbol<*>),"{
+        return symbolsCache.cache(firSymbol) {
+            KtFirDestructuringDeclarationSymbol(firSymbol, analysisSession)
+        }
+    }",Caches a destructuring declaration symbol based on a FirVariableSymbol.
+51,fun getLocation(cursor: CValue<CXCursor>),"{
+        val headerId = getHeaderId(getContainingFile(cursor))
+        return Location(headerId)
+    }",Retrieves the header ID based on the containing file of a given cursor and returns a Location.
+52,fun box(),"{
+    val t = test()
+    if (t != listOf(0, 1, 2, 3, 1))
+        return ""Failed: t=$t""
+    return ""OK""
+}","Initializes a variable with the result of a test and returns ""OK"" if successful."
+53,fun isIntConst(),"=
+        opcode in Opcodes.ICONST_M1..Opcodes.ICONST_5 || opcode == Opcodes.BIPUSH || opcode == Opcodes.SIPUSH ||
+                (opcode == Opcodes.LDC && this is LdcInsnNode && cst is Int)",Checks if an opcode corresponds to an integer constant.
+54,fun <reified T>castAll(),"{
+    for (element in this) element as T
+    @Suppress(""UNCHECKED_CAST"")
+    return this as Collection<T>
+}",Casts all elements of a collection to a specified type and returns the result as a collection.
+55,fun max(a: IntArray),"{
+    var maxI: Int? = null
+    a.forEachIndexed { i, value ->
+        if (maxI == null || value >= a[<!SMARTCAST_IMPOSSIBLE!>maxI<!>])
+            maxI = i
+    }
+    return maxI
+}",Finds the index of the maximum value in an integer array.
+56,fun iterationOverIterator(),"{
+        val c = listOf(0, 1, 2, 3, 4, 5)
+        var s = """"
+        for (i in c.iterator()) {
+            s = s + i.toString()
+        }
+        assertEquals(""012345"", s)
+    }",Iterates over a list and concatenates its elements into a string.
+57,fun test23(),"{
+    var x: Any? = materialize()
+    require(x is String)
+    exactlyOnce {
+        x.length
+    }
+    x += """"
+}",Tests various type resolution scenarios involving wrappers.
+58,fun test(),"{
+    A::Wrapper
+    (A)::<!UNRESOLVED_REFERENCE!>Wrapper<!>
+
+    Outer.Companion::Wrapper
+    (Outer.Companion)::<!UNRESOLVED_REFERENCE!>Wrapper<!>
+    Outer::<!UNRESOLVED_REFERENCE!>Wrapper<!>
+    (Outer)::<!UNRESOLVED_REFERENCE!>Wrapper<!>
+}",Duplicates code samples involving class references.
+59,fun test_1(c: FunctionComponent),"{
+    val (<!PROPERTY_AS_OPERATOR!>x<!>) = FunctionComponent()
+    val (<!PROPERTY_AS_OPERATOR!>y<!>) = c
+}",Destructures FunctionComponent instances.
+60,fun generateBody(),"{
+        for (kind in ProgressionKind.values()) {
+            out.println(integerProgressionIterator(kind))
+            out.println()
+        }
+    }",Generates outputs for different ProgressionKind values.
+61,fun canBeUsedAsSuperTypeOfExportedClasses(),"=
+        !isAny() &&
+                classifierOrNull != context.irBuiltIns.enumClass &&
+                (classifierOrNull?.owner as? IrDeclaration)?.isJsImplicitExport() != true",Checks if a type can be used as a supertype of exported classes.
+62,fun detect(project: Project),"{
+        pluginInMultipleProjectsHolder
+            .addProject(project)
+
+        if (pluginInMultipleProjectsHolder.isInMultipleProjects(project)) {
+            error(MULTIPLE_KOTLIN_PLUGINS_LOADED_WARNING)
+        }
+    }",Adds a project to a holder and checks for multiple Kotlin plugins loaded.
+63,"fun clang_VirtualFileOverlay_addFileMapping(arg0: CXVirtualFileOverlay?, virtualPath: String?, realPath: String?)","{
+    memScoped {
+        return CXErrorCode.byValue(kniBridge5(arg0.rawValue, virtualPath?.cstr?.getPointer(memScope).rawValue, realPath?.cstr?.getPointer(memScope).rawValue))
+    }
+}",Adds a file mapping to a virtual file overlay in the Clang API.
+64,fun test_2(list: List<Set<A>>),"{
+    sequence<A> {
+        <!DEBUG_INFO_EXPRESSION_TYPE(""kotlin.collections.MutableSet<A>"")!>list.flatMapTo(mutableSetOf()) { it }<!>
+    }
+}",Constructs a sequence by flat mapping a list of sets.
+65,fun box(),"{
+    var a: Long = 23
+    var b: Long = 200 + 30
+    var c: Long = id((2000).plus(300))
+
+    assertEquals(24L, a + 1)
+    assertEquals(231L, b + 1)
+    assertEquals(2301L, c + 1)
+
+    return ""OK""
+}",Performs arithmetic operations on Long values and asserts the results.
+66,"fun save(output: DataOutput, snapshot: ClasspathEntrySnapshot)","{
+        LinkedHashMapExternalizer(StringExternalizer, ClassSnapshotExternalizer).save(output, snapshot.classSnapshots)
+    }",Saves classpath entry snapshots using an externalizer.
+67,fun box(),"{
+    val a = A(Unit)
+
+    val test = ""Test ${a.component1()} ${test()} ${Foo().test()}""
+    return ""OK""
+}",Initializes objects of type A and constructs a string.
+68,"fun invoke(podName: String, dependencyName: String)","= build(""Couldn't find declaration of pod '$dependencyName' (interop-binding dependency of pod '${podName}')"")",Builds a message for a specific case where a pod declaration is missing.
+69,fun box(),"{
+    val a: A<Any> = B()
+    if (typeOf(a.foo()) != ""object"") return ""fail1""
+    if (typeOf(B().foo()) != ""number"") return ""fail2""
+    return ""OK""
+}",Tests type inference and method invocation with generic types.
+70,fun isCharSequenceIterator(descriptor: CallableDescriptor),"=
+    descriptor.isTopLevelExtensionOnType(""iterator"", ""kotlin.text"") {
+        it.constructor.declarationDescriptor?.isTopLevelInPackage(""CharSequence"", ""kotlin"")
+            ?: false
+    }",Determines if a callable descriptor represents a char sequence iterator.
+71,fun sumOf(selector: (Int) -> java.math.BigInteger),"{
+    var sum: java.math.BigInteger = 0.toBigInteger()
+    for (element in this) {
+        sum += selector(element)
+    }
+    return sum
+}",Calculates the sum of a collection of integers using a selector function.
+72,"fun unifyValues(b: Binding, value: Value)","{
+        b.value = value
+        var current = b.next
+        while (current != b) {
+            current.value = value
+            current = current.next
+        }
+    }",Updates the value of bindings and their next references.
+73,fun mass(),"{
+    assertEquals(6.Kilograms, 5.CubicMeters * Density.AIR)
+    assertEquals(3500.Kilograms, 3.5.CubicMeters * Density.WATER)
+}",Performs unit tests for mass calculations involving kilograms and cubic meters.
+74,"fun withInitializerGuard(isConst: Boolean, f: IrField.() -> Unit)","{
+        val oldBodiesPolicy = deserializeBodies
+
+        try {
+            deserializeBodies = isConst || oldBodiesPolicy || type.checkObjectLeak()
+            f()
+        } finally {
+            deserializeBodies = oldBodiesPolicy
+        }
+    }",Sets a guard for initializer deserialization based on certain conditions.
+75,fun findExpects(),"{
+    if (this !is MemberDescriptor) return emptyList()
+    return this.findCompatibleExpectsForActual()
+}",Finds compatible expects for actuals in member descriptors.
+76,fun equals(other: Any?),"=
+        this === other || other is CombinedContext && other.size() == size() && other.containsAll(this)",Implements equality comparison for CombinedContext instances.
+77,fun test11(),"{
+    var x: Any? = materialize()
+    require(x is Int)
+    exactlyOnce {
+        x.inc()
+        x++
+    }
+}",Tests type inference and increment operations on nullable values.
+78,fun bitcodeEmbeddingMode(),"{
+        return XcodeUtils.bitcodeEmbeddingMode(outputKind, embedBitcodeMode.orNull, xcodeVersion, konanTarget, debuggable)
+    }",Determines the bitcode embedding mode based on several parameters.
+79,fun test(),"{
+    val f00: Sample.() -> Unit = id { val a = 1 }
+    val f01: Sample.() -> Unit = id { s: Sample -> }
+    val f02: Sample.() -> Unit = id<Sample.() -> Unit> { s: Sample -> }
+}",Initializes function references with different signatures.
+80,fun ifThenElse(x: Int?),"{
+    if (x!! == 0) {
+        checkSubtype<Int>(x)
+    } else {
+        checkSubtype<Int>(x)
+    }
+    checkSubtype<Int>(x)
+}",Executes conditional operations based on the value of an integer.
+81,fun getBoxedBoolean(x: Boolean),"=
+    if (x) {
+        TRUE ?: boxBoolean(true).also { TRUE = it }
+    } else {
+        FALSE ?: boxBoolean(false).also { FALSE = it }
+    }",Boxes a boolean value using a caching mechanism.
+82,"fun reinterpret(expression: IrExpression, fromType: IrType, toType: IrType)","=
+            irCallWithSubstitutedType(symbols.reinterpret.owner, listOf(fromType, toType)).apply {
+                extensionReceiver = expression
+            }",Reinterprets an expression from one type to another in the IR.
+83,fun splayTearDownMarkHelpers(),"{
+        done = true
+        splay.splayTearDown()
+        markHelperJobs.forEach { it.result }
+        markHelpers.forEach { it.requestTermination().result }
+    }",Performs teardown operations for splay trees and mark helpers.
+84,fun box(),"= expectThrowableMessage {
+    val supplier = Supplier { ""Message:"" }
+    assertTrue(1 != 1, supplier)
+}",Expects throwable messages with supplier parameters.
+85,fun isConflictingArgumentFor(typeParameter: TypeParameterDescriptor),"{
+        if (typeParameter.variance == INVARIANT) return false
+        return this != typeParameter.variance
+    }",Checks if an argument is conflicting for a type parameter.
+86,"fun suspendHere(block : () -> String = { ""DEF"" })","= suspendCoroutineUninterceptedOrReturn { x ->
+        x.resume(block())
+        COROUTINE_SUSPENDED
+    }",Suspends the coroutine and resumes it with a specified block.
+87,"fun generateOverriddenFunctionSymbols(declaration: IrSimpleFunction, symbolTable: ReferenceSymbolTable)","{
+    declaration.overriddenSymbols = declaration.descriptor.overriddenDescriptors.memoryOptimizedMap {
+        symbolTable.descriptorExtension.referenceSimpleFunction(it.original)
+    }
+}",Generates overridden function symbols for a simple function.
+88,fun test1(x: Any?),"{
+    // condition == true <=> function returned null <=> 'x' is String
+    if (nullWhenString(x) == null) {
+        <!DEBUG_INFO_SMARTCAST!>x<!>.length
+    }
+    else {
+        x.<!UNRESOLVED_REFERENCE!>length<!>
+    }
+}",Tests smart casts and unresolved references with nullable types.
+89,fun <K>select(),"= <!RETURN_TYPE_MISMATCH!>run { }<!>
+
+fun test() {
+    val x: Int = select()
+    val t = <!CANNOT_INFER_PARAMETER_TYPE, NEW_INFERENCE_NO_INFORMATION_FOR_PARAMETER!>select<!>()
+}",Implements a generic function with a type parameter inferred from the return type.
+90,fun oo(),"{
+    class OriginalClass<T> {
+        val prop = 0
+
+        @Anno(""alias $prop"")
+        typealias NestedTypeAlias <@Anno(""type param $prop"") A : @Anno(""bound $prop"") Number> = @Anno(""type $prop"") OriginalClass<A>
+    }
+}",Defines nested classes with type annotations and aliases.
+91,fun <T>test(a: Any),"{
+    return (try {
+        a as T
+    }
+    catch (e: Exception) {
+        ""error""
+    }).toString()
+}",Attempts to cast an object to a generic type and handles exceptions.
+92,fun convertSeverity(severity: Severity),"= when (severity) {
+            Severity.INFO -> INFO
+            Severity.ERROR -> ERROR
+            Severity.WARNING -> WARNING
+            else -> throw IllegalStateException(""Unknown severity: $severity"")
+        }",Converts severity levels to corresponding constants.
+93,"fun buildFirFile(code: CharSequence, sourceFile: KtSourceFile, linesMapping: KtSourceFileLinesMapping)","{
+        val errorListener = makeErrorListener(sourceFile)
+        val lightTree = buildLightTree(code, errorListener)
+        return buildFirFile(lightTree, sourceFile, linesMapping)
+    }","Builds a FIR file from source code, a source file, and lines mapping."
+94,fun test_3(),"{
+    var x: String? = null
+    if (x != null) {
+        foo(
+            <!DEBUG_INFO_SMARTCAST!>x<!>.length, // stable smartcast
+            { x = """" },
+            <!SMARTCAST_IMPOSSIBLE!>x<!>.length  // stable smartcast
+        )
+    }
+}",Tests stable smart casts and function calls on nullable variables.
+95,fun testDelegateLong(),"{
+    var localD by DelegateLong(999L)
+
+    return {
+        if (localD != 42) AssertionError()
+
+        localD = 1234
+        if (localD != 1234) throw AssertionError()
+        if (backing != 1234) throw AssertionError()
+    }.let { it() }
+}",Tests property delegation with a custom delegate for Long values.
+96,fun rewriteDefaultJarDepsToShadedCompiler(body: Jar.() -> Unit = {}),"=
+    rewriteDepsToShadedJar(tasks.named<Jar>(""jar""), embeddableCompilerDummyForDependenciesRewriting(), body)",Rewrites default jar dependencies to shaded compiler.
+97,fun box(),"{
+    val s = ToSerialize.serializer().descriptor.elementDescriptors.joinToString { it.kind.toString() }
+    return if (s == ""SEALED, OPEN, SEALED, OPEN"") ""OK"" else s
+}",Initializes and serializes a ToSerialize instance and checks the descriptor.
+98,fun init(isNullable : Boolean),"{
+            val id = Identifier()
+            id.myNullable = isNullable
+            return id
+        }",Initializes an Identifier object with a nullable flag.
+99,fun plus(elements: Collection<Boolean>),"{
+    var index = size
+    val result = copyOfUninitializedElements(index + elements.size)
+    for (element in elements) result[index++] = element
+    return result
+}",Appends a collection of boolean elements to the end of a BooleanArray.
+100,fun allBoundsAreNullableOrUnresolved(),"{
+        for (bound in fir.bounds) {
+            if (bound !is FirResolvedTypeRef) return true
+            if (!bound.type.isNullableType()) return false
+        }
+
+        return true
+    }",Checks if all bounds in a FIR type are nullable or unresolved.
+101,fun crossModulesWorkCorrectlyWithComposeDependencyKT60852(gradleVersion: GradleVersion),"{
+        project(""kotlin-js-compose-dependency"", gradleVersion) {
+            build(""compileDevelopmentExecutableKotlinJs"") {
+                assertTasksExecuted("":compileDevelopmentExecutableKotlinJs"")
+            }
+        }
+    }",Tests cross-module functionality with Compose dependencies using a specified Gradle version.
+102,"fun visitErrorExpression(errorExpression: FirErrorExpression, data: FirElement)","{
+                        errorExpressions++
+                        println(errorExpression.render())
+                        errorExpression.psi?.let { println(it) }
+                    }",Visits error expressions in the FIR element tree and prints information.
+103,fun errorType(),"= ErrorUtils.createErrorType(ErrorTypeKind.ERROR_TYPE_FOR_DESTRUCTURING_COMPONENT, componentName.toString())",Creates an error type for a destructuring component.
+104,fun visitFunction(declaration: IrFunction),"{
+                typeTranslator.buildWithScope(declaration) {
+                    super.visitFunction(declaration)
+                }
+            }",Visits functions in the IR and builds types with scope.
+105,fun foo(x : String),"{
+    assert(""abz]"".hashCode() == ""aby|"".hashCode())
+
+    when (x) {
+        ""abz]"", ""cde"" -> return ""abz_cde""
+        ""aby|"", ""ghi"" -> return ""aby_ghi""
+    }
+
+    return ""other""
+}",Executes conditional logic based on string values.
+106,fun main(),"{
+    val x = bar() { foo() } // OK with default current 1.5/1.6, Error with DisableCompatibilityModeForNewInference enabled, Ok in K2
+    x.length
+}",Tests coroutine usage with lambda expressions.
+107,"fun visitLogicalAnd(logicalAnd: LogicalAnd, data: Unit)","{
+        inBracketsIfNecessary(logicalAnd, logicalAnd.left) { logicalAnd.left.accept(this, data) }
+        builder.append("" && "")
+        inBracketsIfNecessary(logicalAnd, logicalAnd.right) { logicalAnd.right.accept(this, data) }
+    }",Visits logical AND expressions and appends them to a string builder.
+108,"fun box(a: C, x: dynamic)","{
+    println(a
+            .foo()
+            .bar())
+
+    println(a
+            .baz
+            .boo)
+}",Prints chained function calls on an object of type C.
+109,"fun checkSuperTypeAnnotations(annotated: KtClassOrObject, trace: BindingTrace)","{
+        for (superType in annotated.superTypeListEntries.mapNotNull { it.typeReference }) {
+            checkTypeReference(superType, trace, isSuperType = true)
+        }
+    }",Checks super type annotations for a Kotlin class or object.
+110,"fun test(a: Any?, flag: Boolean, x: Any?)","{
+    if (a !is String) return
+    a.length
+
+    val b: Any?
+
+    if (flag) {
+        b = a
+        b.length
+    }
+    else {
+        b = x
+        b.<!UNRESOLVED_REFERENCE!>length<!>()
+    }
+}",Tests smart casts and unresolved references with nullable types in conditional statements.
+111,fun box(),"{
+    fun foo(): Unit {}
+    assert(Unit.javaClass.equals(foo().javaClass))
+    assert(Unit.javaClass.equals(foo()::class.java))
+    return ""OK""
+}",Asserts that the class of a function's return type is equal to Unit.
+112,fun box(),"{
+
+    val oneParsed = parse(""one"")
+    if (oneParsed != 1) return ""'one' should map to '1' but was $oneParsed""
+
+    val OneParsed = parse(""One"")
+    if (OneParsed != 1) return ""'One' should map to '1' but was $OneParsed""
+
+    return ""OK""
+}",Tests mappings of string inputs to integers.
+113,fun expectedMapping(categoryCode: String),"= when (categoryCode) {
+        ""Lu"" -> 1
+        ""Lt"" -> 0
+        ""Ll"" -> -1
+        else -> error(""Unexpected category: $categoryCode"")
+    }",Provides expected mappings for character category codes.
+114,fun myFun(),"{
+    val myParent = MyParent()
+    myParent.child?.nullableString ?: run { return }
+
+    myParent.child.notNull   // <- No smart cast in plugin
+}",Tests smart casts in a chain of property access expressions.
+115,fun visitInstanceInitializerCall(expression: IrInstanceInitializerCall),"=
+        IrInstanceInitializerCallImpl(
+            expression.startOffset, expression.endOffset,
+            symbolRemapper.getReferencedClass(expression.classSymbol),
+            expression.type.remapType()
+        ).processAttributes(expression)",Visits instance initializer calls in the IR and processes attributes.
+116,fun box(),"{
+    try {
+        test()
+        return ""fail: expected exception""
+    } catch (e: RuntimeException) {
+
+    }
+
+    return if (result == ""try finally"") ""OK"" else ""fail: $result""
+}",Performs unit tests for specific exception handling scenarios.
+117,fun transform(irFile: IrFile),"{
+        if (context.platform.isJs()) {
+            irFile.transform(AtomicExtensionTransformer(), null)
+            irFile.transformChildren(AtomicTransformer(), null)
+
+            irFile.patchDeclarationParents()
+        }
+    }",Transforms IR files for JavaScript platforms.
+118,"fun mingwX86(name: String = ""mingwX86"", configure: KotlinNativeTarget.() -> Unit = { })","=
+        configureOrCreate(
+            name,
+            @Suppress(""DEPRECATION"")
+            presets.getByName(""mingwX86"") as KotlinNativeTargetPreset,
+            configure
+        )",Configures a Kotlin Native target for MinGW x86.
+119,fun box(),"{
+    var result = ""fail""
+    suspend {
+        result = suspend { C(""OK"") }.map { it }().value
+    }.startCoroutine(EmptyContinuation)
+    return result
+}",Executes suspend functions and retrieves the result using coroutines.
+120,"fun assertBasics(expectedName: String, expectedKotlinVersion: String, expectedProjectType: KotlinProject.ProjectType,)","{
+            assertEquals(1L, modelVersion)
+            assertEquals(expectedName, name)
+            assertEquals(expectedKotlinVersion, kotlinVersion)
+            assertEquals(expectedProjectType, projectType)
+        }",Asserts basic properties of a Kotlin project model.
+121,"fun <R, D>acceptChildren(visitor: FirVisitor<R, D>, data: D)","{
+        annotations.forEach { it.accept(visitor, data) }
+        controlFlowGraphReference?.accept(visitor, data)
+        body?.accept(visitor, data)
+    }",Accepts children nodes in the FIR tree and applies a transformer.
+122,fun repeatingFlow(n: Int),"{
+    val x: Int
+    <!UNINITIALIZED_VARIABLE!>x<!>.inc()
+
+    for (i in 1..n) {
+        runTwice { <!VAL_REASSIGNMENT!>x<!> = 42 }",Defines a repeating flow with an uninitialized variable.
+123,fun findFunctionByName(name: String),"{
+    return declarations.firstOrNull { it is KtNamedFunction && it.name == name } as KtNamedDeclaration?
+}",Finds a function declaration by name.
+124,"fun <NodeType : Node>open(ts: Long, new: NodeType)","= new.also {
+        log.kotlinDebug { ""Test node opened: $it"" }
+
+        it.markStarted(ts)
+        push(it)
+    }",Opens a node and logs a debug message.
+125,fun isCoerceFromUIntToInt(),"=
+        symbol == context.ir.symbols.unsafeCoerceIntrinsic
+                && getTypeArgument(0)?.isUInt() == true
+                && getTypeArgument(1)?.isInt() == true",Checks if a coercion from UInt to Int is valid.
+126,fun getContainingModule(),"=
+        withValidityAssertion { analysisSession.containingDeclarationProvider.getContainingModule(this) }",Retrieves the containing module of a declaration.
+127,"fun visitUserType(userType: KtUserType, data: Unit?)","{
+        return render(userType, userType.qualifier, userType.referenceExpression, userType.typeArgumentList)
+    }",Visits user type declarations in Kotlin code.
+128,fun box(),"{
+    val first = Derived().some
+    if (first != ""OK"") return first
+    val d = Derived()
+    if (d::some.get() != ""OK"") return d::some.get()
+    d.some = ""12""
+    if (d.foo() != ""12"") return ""Error writing: ${d.foo()}""
+    return ""OK""
+}",Tests property accessors and property references in Kotlin.
+129,fun testWhileCondition(),"= assertKeys(
+        ""Int%arg-0%call-print%body%loop%fun-Foo""
+    ) {
+        """"""
+        fun Foo() {
+            while (Math.random() > 0.5) {
+                print(1)
+            }
+        }
+        """"""
+    }",Tests while loop conditions with random numbers.
+130,fun hasComposableAnnotation(bindingContext: BindingContext),"{
+    for (entry in this) {
+        val descriptor = bindingContext.get(BindingContext.ANNOTATION, entry) ?: continue
+        if (descriptor.isComposableAnnotation) return true
+    }
+    return false
+}",Checks if a binding context contains any composable annotations.
+131,"fun makeValueParameter(name: String, type: KotlinType, index: Int)","{
+            return ValueParameterDescriptorImpl(
+                    this, null, index, Annotations.EMPTY, Name.identifier(name), type, false, false, false, null, this.source)
+        }",Constructs value parameter descriptors for FIR elements.
+132,fun apply(target: Project),"{
+        target.extensions.create(""kapt"", KaptExtension::class.java)
+
+        registry.register(KaptModelBuilder())
+    }",Applies project model services to a mock project.
+133,fun <T : Comparable<T>>range(),"{
+    val iter = iterator()
+    return when {
+        iter.hasNext() -> iter.next().let { it..it }
+        else -> null
+    }
+}",Defines a range for a comparable type.
+134,fun commonServicesConfigurationForCodegenTest(targetFrontend: FrontendKind<*>),"{
+    commonServicesConfigurationForCodegenAndDebugTest(targetFrontend)
+    useAdditionalSourceProviders(
+        ::MainFunctionForBlackBoxTestsSourceProvider
+    )
+
+}",Configures common services for code generation tests.
+135,fun deacronimize(),"= when (this) {
+    SampleEnum.A -> ""Apple""
+    SampleEnum.B -> ""Biscuit""
+    SampleEnum.C -> ""Cinnamon""
+}",Deacronimizes enum values to their corresponding strings.
+136,fun main(),"{
+    val a = A()
+    val f = a::f
+    internalFun()
+    f()
+    println(""${a::f.name} ran at the speed of light"")
+}",Demonstrates method references and function invocation.
+137,"fun getScriptContents(scriptDefinition: KotlinScriptDefinition, file: VirtualFile)","=
+        makeScriptContents(
+            file,
+            scriptDefinition,
+            project,
+            scriptDefinition.template::class.java.classLoader
+        )",Retrieves the contents of a Kotlin script file.
+138,"fun <D>transformArguments(transformer: FirTransformer<D>, data: D)","{
+        mapping = mapping.mapKeys { (k, _) -> k.transformSingle(transformer, data) } as LinkedHashMap<FirExpression, FirValueParameter>
+        return this
+    }",Transforms arguments in FIR elements using a transformer.
+139,fun findClass(name: String),"=
+                if (name == ""Hello"") defineClass(name, bytes, 0, bytes.size) else super.findClass(name)",Finds a class by name and loads its bytecode.
+140,"fun registerProjectModelServices(project: MockProject, disposable: Disposable)","{
+        with(PsiElementFinder.EP.getPoint(project)) {
+            registerExtension(JavaElementFinder(project), disposable)
+            registerExtension(PsiElementFinderImpl(project), disposable)
+        }
+    }",Registers project model services for a mock project.
+141,fun test26(x: Any),"{
+    var y = x
+    atLeastOnce {
+        while (x is String) {
+            y.length
+        }
+    }
+}",Tests while loop conditions with smart casts.
+142,"fun testExactBound(invS: Inv<String>, invI: Inv<Int>, invB: Inv<Byte>)","{
+    exactBound(1, <!ARGUMENT_TYPE_MISMATCH!>invS<!>)
+    exactBound(1, invI)
+
+    val b = exactBound(1, invB)
+    b checkType { _<Byte>() }
+}",Tests exact bounds of type parameters with invocations.
+143,fun box(),"{
+    val prop = ::state
+
+    assertEquals("""", prop.getter.invoke())
+    assertEquals("""", prop.getter())
+
+    prop.setter(""OK"")
+
+    return prop.get()
+}",Tests property access using property references.
+144,fun use(),"{
+    var x: Int?
+    x = 5
+    // Write to x is AFTER
+    <!DEBUG_INFO_SMARTCAST!>x<!>.hashCode()
+    // No smart cast should be here!
+    foo(bar { x = null }, <!SMARTCAST_IMPOSSIBLE!>x<!>.hashCode())
+}",Demonstrates smart cast behavior with nullable variables.
+145,fun relativeTo(base: Path),"= try {
+    PathRelativizer.tryRelativeTo(this, base)
+} catch (e: IllegalArgumentException) {
+    throw IllegalArgumentException(e.message + ""\nthis path: $this\nbase path: $base"", e)
+}",Computes the relative path of a file from a base path.
+146,fun box(),"{
+    for (i in D.indices) {
+        for (j in D[i].data.indices) {
+            val x = D[i].data[j].toInt()
+            if (x != i + j) throw AssertionError()
+        }
+    }
+
+    return ""OK""
+}",Tests array data integrity.
+147,fun foo(arg: Boolean?),"{
+    if (arg != null) {
+        return when (<!DEBUG_INFO_SMARTCAST!>arg<!>) {
+            true -> 1
+            false -> 0
+            // else or null branch should not be required here!
+        }
+    } 
+    else {
+        return -1
+    }
+}",Handles conditional logic with nullable Boolean arguments.
+148,fun getClassOrObjectSymbol(),"{
+    return getClassOrObjectSymbolByClassId(classId)
+        ?.takeIf { symbol -> symbol in this }
+}",Retrieves the symbol for a class or object based on its class ID.
+149,fun `test - number - ULong`(),"{
+        val header = header(""""""val foo: ULong get() = error(""stub"")"""""")
+        assertEquals(""uint64_t"", header.renderTypesOfSymbol(""foo""))
+    }",Tests the header generation for ULong types.
+150,fun isBuiltInMemberMappedToJavaDefault(),"{
+        return fir.modality != Modality.ABSTRACT &&
+                annotations.hasAnnotation(PLATFORM_DEPENDENT_ANNOTATION_CLASS_ID, session)
+    }",Checks if a FIR member is built-in and mapped to a Java default method.
+151,fun testBooleanArray(),"{
+    BooleanArray(5) { i ->
+        if (i == 3) return
+        i % 2 == 0
+    }
+    throw AssertionError()
+}",Tests boolean array initialization with early return.
+152,fun buildSubstitutor(build: KtSubstitutorBuilder.() -> Unit),"{
+    contract {
+        callsInPlace(build, InvocationKind.EXACTLY_ONCE)
+    }
+    return analysisSession.substitutorFactory.buildSubstitutor(KtSubstitutorBuilder(token).apply(build))
+}",Builds a substitutor using a Kotlin substitutor builder.
+153,"fun <T : BuildService<P>, P : BuildServiceParameters>registerClassLoaderScopedBuildService(serviceClass: KClass<T>, configureAction: Action<BuildServiceSpec<P>> = Action { },)","{
+    val serviceName = ""${serviceClass.simpleName}_${serviceClass.java.classLoader.hashCode()}""
+    return sharedServices.registerIfAbsent(serviceName, serviceClass.java, configureAction)
+}",Registers a class loader-scoped build service.
+154,fun case_6(x: Any?),"{
+    (<!DEBUG_INFO_EXPRESSION_TYPE(""kotlin.collections.List<kotlin.Any?>"")!>listOf(null) + x as MutableList<in dynamic><!>).toTypedArray()
+}","Creates an array from a list and an object, handling type coercions."
+155,"fun flexibleType(lowerBound: SimpleType, upperBound: SimpleType)","{
+        if (lowerBound == upperBound) return lowerBound
+        return FlexibleTypeImpl(lowerBound, upperBound)
+    }",Constructs a flexible type based on lower and upper bounds.
+156,"fun emitMetadata(builderResult: StubIrBuilderResult, moduleName: String, bridgeBuilderResult: BridgeBuilderResult)","= Result.Metadata(StubIrMetadataEmitter(context, builderResult, moduleName, bridgeBuilderResult).emit())",Emits metadata for IR builder and bridge results.
+157,"fun generateDelegatedProperty(ktProperty: KtProperty, ktDelegate: KtPropertyDelegate, propertyDescriptor: PropertyDescriptor)","=
+        DelegatedPropertyGenerator(declarationGenerator)
+            .generateDelegatedProperty(ktProperty, ktDelegate, propertyDescriptor)
+            .apply { generateOverrides(propertyDescriptor) }",Generates delegated properties and their overrides.
+158,fun loadFrom(file: File),"{
+            ObjectInputStream(BufferedInputStream(file.inputStream())).use {
+                return it.readObject() as ClasspathEntryData
+            }
+        }",Loads classpath entry data from a file.
+159,fun f(crossinline body: suspend () -> Unit),"=
+    g<
+        Any, Any, Any, Any, Any, Any, Any, Any, Any, Any,
+        Any, Any, Any, Any, Any, Any, Any, Any, Any, Any,
+    >(body)",Invokes a generic function with a lambda argument.
+160,fun appendArrayTypeDeclaration(type: WasmArrayDeclaration),"{
+        newLineList(""type"") {
+            appendModuleFieldReference(type)
+            sameLineList(""array"") {
+                appendFieldType(type.field)
+            }
+        }
+    }",Appends a declaration for a Wasm array type.
+161,fun toScriptSource(),"= when {
+    file != null -> FileScriptSource(file!!, text?.toString())
+    text != null -> text!!.toString().toScriptSource()
+    else -> throw IllegalArgumentException(""Unable to convert script contents $this into script source"")
+}",Converts script contents to a script source.
+162,fun testMemberReferenceThrows(),"{
+    var x: Any? = """"
+    x as Any
+    try {
+        x = null
+        x = String::length
+    } catch (ex: Throwable) {
+        // bad - get callable reference throw
+        x<!UNSAFE_CALL!>.<!>notNull()
+    }
+}",Tests handling of member reference operations with nullable types.
+163,fun <reified T>firstIsInstance(),"{
+    for (element in this) if (element is T) return element
+    throw NoSuchElementException(""No element of given type found"")
+}",Finds the first element of a specific type in a collection.
+164,fun box(),"{
+    val actual = foo(Unit)
+    if (actual != ""kotlin.Unit"") return ""FAIL: $actual""
+    return ""OK""
+}",Tests the behavior of a function returning the string representation of Unit.
+165,fun `nativeTest nativeMain linux macos - test compilation defines custom cinterop`(),"{
+        `nativeTest nativeMain linux macos - test compilation defines custom cinterop`(false)
+    }",Invokes a native test with specific parameters.
+166,fun visitUniqId(uniqId: UniqId),"{
+                proto.setExtension(
+                    KlibMetadataProtoBuf.constructorUniqId,
+                    uniqId.writeUniqId().build()
+                )
+            }",Visits unique IDs and sets corresponding protobuf extensions.
+167,fun poll54(),"{
+    return flow {
+        val inv = try { ::bar5 } catch (e: Exception) { ::foo5 } finally { ::foo5 }
+        inv()
+    }
+}",Creates a flow with a suspended invocation inside a try-catch-finally block.
+168,"fun case_14(value_1: Any, value_2: Class, value_3: Class?, value_4: Int)","{
+    fun __fun_1(): () -> Unit { return fun() { } }
+
+    when (value_1) {
+        funWithoutArgs(), __fun_1()(), value_2.fun_2(value_4) -> {}
+        value_3?.fun_2(value_4), value_3!!.fun_2(value_4) -> {}
+    }
+}",Tests different patterns in a when expression.
+169,"fun missingDiagnostics(callbacks: DiagnosticDiffCallbacks, currentExpected: DiagnosedRange)","{
+        for (diagnostic in currentExpected.getDiagnostics()) {
+            callbacks.missingDiagnostic(diagnostic, currentExpected.start, currentExpected.end)
+        }
+    }",Reports missing diagnostics for a specified range.
+170,fun testInlineCallInReturn(),"{
+    // CHECK_NOT_CALLED_IN_SCOPE: scope=testInlineCallInReturn$test function=Unit_getInstance
+    fun test() { return inlineDemo() }
+    val x = test()
+    assertEquals(flushDemoCallCounter(), 1)
+    assertEquals(x.toString(), ""kotlin.Unit"")
+}",Tests inline function calls in a return statement.
+171,fun test26(),"{
+    var x: Any? = materialize()
+    for (i in 1..10) {
+        require(x is String)
+        atLeastOnce {
+            for (j in 1..2) {
+                x.length
+                x += """"
+            }
+        }
+    }
+}",Tests suspending functions with dynamic types.
+172,"fun getSyntheticConstructors(contributedClassifier: ClassifierDescriptor, location: LookupLocation)","{
+        recordSamLookupsToClassifier(contributedClassifier, location)
+
+        return listOfNotNull(getSamConstructor(contributedClassifier))
+    }",Retrieves synthetic constructors for a contributed classifier.
+173,fun foo(),"{
+    val x: Int? = null
+
+    val a = object {
+        fun baz() = bar(if (x == null) 0 else x)
+        fun quux(): Int = <!RETURN_TYPE_MISMATCH!>if (x == null) x else x<!>
+    }
+}",Demonstrates type inference behavior with nullable types.
+174,fun getLabel(),"{
+        getfield(
+            Type.getObjectType(classBuilderForCoroutineState.thisName).internalName,
+            COROUTINE_LABEL_FIELD_NAME, Type.INT_TYPE.descriptor
+        )
+    }",Gets the label of a coroutine state.
+175,fun box(),"{
+  if (global != ""A"") {
+    return ""fail1: global = $global""
+  }
+
+  val c = C()
+  if (global == ""ABCD"") return ""OK"" else return ""fail2: global = $global""
+}",Tests global variables with different assignments.
+176,fun box(),"{
+    if (JavaBase().foo(0.toUInt()) != 42) return ""Fail 1""
+    if (JavaChild().foo(0.toUInt()) != 42) return ""Fail 2""
+    if (KotlinChild().foo(0.toUInt()) != 42) return ""Fail 3""
+
+    return ""OK""
+}",Tests overriding behavior with UInt arguments.
+177,fun testDataClassHashCode(),"= validateBytecode(
+        """"""
+        data class Foo(
+            val bar: @Composable () -> Unit
+        )
+        """"""
+    ) {
+        assert(!it.contains(""CHECKCAST kotlin/jvm/functions/Function0""))
+    }",Validates bytecode for a data class with a composable property.
+178,fun testSeveralEntries(),"= applyForDirAndJar(""test"", processors(""test.Foo""), Entry(""foo"", ""bar"")) { file ->
+        val impls = ServiceLoaderLite.findImplementations<Processor>(listOf(file))
+        assertEquals(""test.Foo"", impls.single())
+    }",Tests service loader implementations with multiple entries.
+179,fun dropMaxValue(),"{
+        val range = 0L..Int.MAX_VALUE + 1L
+        assertEquals(listOf(Int.MAX_VALUE.toLong(), Int.MAX_VALUE + 1L), range.drop(Int.MAX_VALUE))
+    }",Tests dropping elements from a range with a maximum value.
+180,fun hasTypeParameters(),"=
+        hasTypeParameters(ktModule, containingPropertyDeclaration, containingPropertySymbolPointer)
+                || containingClass.isDefaultImplsForInterfaceWithTypeParameters",Checks if a module or class has type parameters.
+181,fun main(),"{
+            checkSubtype<KFunction0<Unit>>(x)
+            checkSubtype<KFunction1<Int, Unit>>(y)
+            checkSubtype<KFunction0<String>>(z)
+        }",Tests subtype checks for function types.
+182,fun getTypeTemplate(typeVariable: TypeVariable),"=
+        typeTemplates.getOrPut(typeVariable) {
+            TypeTemplate(typeVariable, this)
+        }",Gets the type template for a type variable.
+183,fun intellijSdkVersionForIde(),"{
+    val majorVersion = kotlinBuildProperties.getOrNull(""attachedIntellijVersion"") as? String ?: return null
+    return rootProject.findProperty(""versions.intellijSdk.forIde.$majorVersion"") as? String
+}",Retrieves the IntelliJ SDK version for the IDE.
+184,fun box(),"{
+    testFunction1(null)
+    testFunction2(null)
+    testFunction3(null)
+    testFunction4(null)
+    testFunction5(null)
+
+    testLambda1()
+    testLambda2()
+
+    return ""OK""
+}",Tests various functions with null arguments.
+185,fun test31(),"{
+    var x: Any? = materialize()
+    var y = x
+    exactlyOnce {
+        while (x is String) {
+            y.length
+            x.length
+        }
+        x = 10
+    }
+}",Tests suspension with smart casts and property access.
+186,fun <T : KtConstructor<T>>referenceConstructor(constructor: KtConstructor<T>),"{
+        symbolTable.referenceFunction(constructor.findExpectForActual(BindingContext.CONSTRUCTOR) ?: return)
+    }",References a constructor symbol for a Kotlin constructor.
+187,fun generate(),"{
+        val props = thisClass.unsubstitutedMemberScope.getDescriptorsFiltered().filterIsInstance<PropertyDescriptor>()
+        if (props.isEmpty()) return
+
+        generateFieldsAndSetters(props)
+        generateConstructor(props)
+    }",Generates code for a class with properties.
+188,fun testForInUIntArrayWithUpcactToAny(),"{
+    var test = """"
+    for (x: Any in uintArrayOf(1u, 2u, 3u)) {
+        test = ""$test$x;""
+        useUIntAsAny(x)
+    }
+    if (test != ""1;2;3;"") throw AssertionError(test)
+}",Tests for loop behavior with UInt arrays and any coercion.
+189,fun getPossibleCallableNames(),"= withValidityAssertion {
+        tools.flatMapTo(mutableSetOf()) { it.declarationProvider.getTopLevelCallableNames() }
+    }",Retrieves possible callable names from tools.
+190,fun reportUnresolvedReference(),"{
+            return reportError(ConeUnresolvedNameError(Name.identifier(operation.operator)))
+        }",Reports unresolved references in the Cone language.
+191,"fun resolve(scriptContents: ScriptContents, environment: Environment)","=
+        @Suppress(""DEPRECATION_ERROR"")
+        internalScriptingRunSuspend {
+            resolveAsync(scriptContents, environment)
+        }",Resolves a script asynchronously.
+192,fun ext(),"= suspendCoroutineUninterceptedOrReturn {
+        x ->
+        x.resume(this + w)
+        COROUTINE_SUSPENDED
+    }",Implements a suspending extension function.
+193,fun box(),"{
+    kotlin.test.assertEquals(
+        ""Outer\$FirstInner\$SecondInner<A>\$ThirdInnner\$FourthInner"",
+        Outer.FirstInner.SecondInner.ThirdInnner::class.java.declaredMethods.single().genericReturnType.toString()
+    )
+    return ""OK""
+}",Tests the generic return type of a nested inner class.
+194,fun test16(),"{
+    var x: Any? = materialize()
+    require(x is String)
+    x += """"
+    for(i in 1..10) {
+        x.length
+    }
+}",Tests property access with smart casts and a loop.
+195,fun main(),"{
+    val fff = { x: Int -> <!UNRESOLVED_REFERENCE!>aaa<!> }
+    <!CANNOT_INFER_PARAMETER_TYPE, CANNOT_INFER_PARAMETER_TYPE, CANNOT_INFER_PARAMETER_TYPE!>foo<!>(<!ARGUMENT_TYPE_MISMATCH!>fff<!>, { <!CANNOT_INFER_PARAMETER_TYPE!>x<!> -> x + 1 })
+}",Tests function invocation with lambda expressions and type inference issues.
+196,fun test33(),"{
+    var x: Any? = materialize()
+    require(x is Int)
+    for (i in 1..10) {
+        x.inc()
+        for (j in 1..10) {
+            x.inc()
+        }
+        x++
+    }
+}",Tests increment operations within nested loops.
+197,fun asQualifierPartList(),"=
+        when (this) {
+            is KtImportInfo.ImportContent.ExpressionBased -> expression.asQualifierPartList()
+            is KtImportInfo.ImportContent.FqNameBased -> fqName.pathSegments().map { QualifierPart(it) }
+        }",Converts import information to a qualifier part list.
+198,fun writeData(dataOutput: DataOutput),"{
+        dataOutput.writeInt(data.size)
+
+        val transformedData = data.map(WobblyTF8::encode)
+
+        transformedData.forEach { dataOutput.writeInt(it.size) }
+        transformedData.forEach { dataOutput.write(it) }
+    }",Writes data to a DataOutput stream.
+199,"fun renderSeparated(elements: List<FirElement>, visitor: FirRenderer.Visitor)","{
+        for ((index, element) in elements.withIndex()) {
+            if (index > 0) {
+                print("", "")
+            }
+            element.accept(visitor)
+        }
+    }",Renders a list of FIR elements separated by commas using a visitor.
+200,fun testMembersFromSupertypes(),"{
+    f()
+    g("""")
+    p
+    fromI()
+
+    genericFromI(3)
+    genericFromI(<!TYPE_MISMATCH!>""a""<!>)
+
+    own
+}",Tests various member invocations from supertypes.
+201,fun visitThrow(x: JsThrow),"{
+        withStatement(x) {
+            handleNodeLocation(x)
+            lineNumbersByStatement[x]?.add(-1)
+            super.visitThrow(x)
+        }
+    }",Visits a `JsThrow` expression and handles its location.
+202,"fun <T, E>checkContract(array: T, toList: T.() -> List<E>, iterator: T.() -> Iterator<E>)","=
+                compare(array.toList().iterator(), array.iterator()) {
+                    iteratorBehavior()
+                }",Checks a contract on array comparisons using provided functions.
+203,fun main(),"{
+    X().remove("""")
+    X().removeAt(1)
+
+    val y: MutableList<String> = Y()
+    y.removeAt(1)
+
+    Y().remove("""")
+    Y().removeAt(1)
+
+    X().remove("""")
+    X().removeAt(1)
+}",Tests method invocations with different receivers.
+204,fun visitThrow(expression: IrThrow),"=
+        IrThrowImpl(
+            expression.startOffset, expression.endOffset,
+            expression.type.remapType(),
+            expression.value.transform()
+        ).processAttributes(expression)",Visits an `IrThrow` expression and processes its attributes.
+205,"fun visitTypeParameter(declaration: IrTypeParameter, data: Visibles)","{
+            for (superType in declaration.superTypes) {
+                data.visitTypeAccess(declaration, superType)
+            }
+            super.visitTypeParameter(declaration, data)
+        }",Visits a type parameter declaration and its super types.
+206,fun toMaybeVersionedJarRegex(),"{
+    val hasJarExtension = endsWith("".jar"")
+    val escaped = this.wildcardsToEscapedRegexString()
+    return Regex(if (hasJarExtension) escaped else ""$escaped(-\\d.*)?\\.jar"") // TODO: consider more precise version part of the regex
+}",Constructs a regex pattern for maybe versioned JARs.
+207,fun commonizedWithMissingModules(),"= doTestSuccessfulCommonization(
+        mapOf(
+            ""target1"" to listOf(""foo"", ""bar""),
+            ""target2"" to listOf(""foo"", ""qix"")
+        )
+    )",Tests commonization with missing modules.
+208,fun box(),"{
+    var sum = 0
+    for (i: Int? in arrayOf("""", """", """", """").indices) {
+        suppressBoxingOptimization(i)
+        sum += i ?: 0
+    }
+    assertEquals(6, sum)
+
+    return ""OK""
+}",Computes the sum of indices in an array with null elements.
+209,"fun foo5(x: Int, y: IntArray, z: IntArray)","{
+    val u = when (x) {
+        in y,
+        in z,
+            -> println(1)
+        else -> println(3)
+    }
+}",Handles a conditional expression with multiple `in` operators.
+210,fun withProjection(projection: ConeTypeProjection),"{
+        if (projection.kind == ProjectionKind.INVARIANT) return this
+        return withAttributes(ConeAttributes.create(listOf(OriginalProjectionTypeAttribute(projection))))
+    }",Applies projections to types in the Cone language.
+211,fun renderTypeArguments(typeArguments: List<TypeProjection>),"=
+        if (typeArguments.isEmpty()) """"
+        else buildString {
+            append(lt())
+            this.appendTypeProjections(typeArguments)
+            append(gt())
+        }",Renders type arguments with angle brackets.
+212,fun referenceLocalDelegatedProperty(descriptor: VariableDescriptorWithAccessors),"=
+        localDelegatedPropertySlice.referenced(descriptor) {
+            error(""Undefined local delegated property referenced: $descriptor"")
+        }",References a local delegated property.
+213,fun foo(),"{
+    val f : Function1<*, *> = { x -> x.toString() }
+    f(<!CONSTANT_EXPECTED_TYPE_MISMATCH!>1<!>)
+}",Demonstrates a type mismatch error in a lambda expression.
+214,fun unitShortConv(),"= <!RETURN_TYPE_MISMATCH!>1<!>
+fun unitShortNull() : Unit = <!NULL_FOR_NONNULL_TYPE!>null<!>
+
+fun intEmpty() : Int {<!NO_RETURN_IN_FUNCTION_WITH_BLOCK_BODY!>}<!>
+fun intShortInfer() = 1",Contains several functions with type inference errors.
+215,fun case_2(x: Int?),"{
+    operator fun Nothing?.not() = null
+    if (x != !null != false) {
+        <!DEBUG_INFO_EXPRESSION_TYPE(""kotlin.Int?"")!>x<!>
+        <!DEBUG_INFO_EXPRESSION_TYPE(""kotlin.Int?"")!>x<!><!UNSAFE_CALL!>.<!>inv()
+    }
+}",Implements a conditional expression with a custom `not` operator.
+216,fun contains(file: VirtualFile),"=
+        (base.contains(file) && !shadowed.contains(file)) || file.isFromGeneratedModule(useSiteModule)",Checks if a virtual file contains a particular element.
+217,fun getFilePath(testArea: TestArea),"= buildString {
+        append(""${testDataPath}/${testArea.testDataPath}"")
+        if (testsPath != null)
+            append(""/${testsPath}"")
+    }",Builds a file path for a test area.
+218,fun isRenamableFunction(descriptor: FunctionDescriptor),"{
+        val containingDescriptor = descriptor.containingDeclaration
+
+        return containingDescriptor is PackageFragmentDescriptor || containingDescriptor is ClassDescriptor
+    }",Determines if a function descriptor is renamable.
+219,fun <T>asMatchableComparison(cmp : Comparison<T>),"= {a, b ->
+  val res = cmp(a, b)
+  if (res == 0) return ComparisonResult.EQ
+  if (res < 0) return ComparisonResult.LS
+  return ComparisonResult.GR
+}",Converts a comparison function to a matchable comparison function.
+220,fun exec(),"{
+        val expirationDate = Instant.now().minus(Duration.ofDays(timeToLiveInDays))
+
+        cleanableStoreProvider.get().cleanDir(expirationDate)
+
+    }",Executes a clean-up operation for expired data.
+221,"fun firstSuperMethodFromKotlin(override: IrSimpleFunction, implementation: IrSimpleFunction)","{
+    return override.overriddenSymbols.firstOrNull {
+        val owner = it.owner
+        owner.modality != Modality.ABSTRACT && owner.overrides(implementation)
+    } ?: error(""No super method found for: ${override.render()}"")
+}",Finds the first super method from Kotlin sources.
+222,"fun visitSyntheticBody(body: IrSyntheticBody, data: IrDeclaration?)","{
+        printBody(body, data) {
+            // it's not valid kotlin
+            p.printlnWithNoIndent(""/* Synthetic body for ${body.kind} */"")
+        }
+    }",Visits a synthetic body in Intermediate Representation (IR).
+223,fun remove(element: E),"{
+        val index = indexOf(element)
+        if (index == -1) return false
+        removeAt(index)
+        return true
+    }",Removes an element from a collection.
+224,fun generateDelegated(),"{
+        for (specifier in delegationBySpecifiers) {
+            getSuperClass(specifier)?.let {
+                generateDelegates(specifier, it, fields[specifier]!!)
+            }
+        }
+    }",Generates delegated properties with missing specifiers.
+225,fun hasJavaLangRecordSupertype(),"=
+        typeConstructor.supertypes.any { KotlinBuiltIns.isConstructedFromGivenClass(it, JAVA_LANG_RECORD_FQ_NAME) }",Checks if a type has `java.lang.Record` as a supertype.
+226,fun isIgnoredTarget(registeredDirectives: RegisteredDirectives),"{
+    return isIgnoredWithIGNORE_NATIVE(registeredDirectives) || isIgnoredWithIGNORE_BACKEND { registeredDirectives.get(it) }
+}",Determines if a target is ignored based on directives.
+227,fun hasDefaultValue(),"{
+    return DFS.ifAny(
+        listOf(this),
+        { current -> current.overriddenDescriptors.map(ValueParameterDescriptor::getOriginal) },
+        { it.declaresDefaultValue() || it.isActualParameterWithCorrespondingExpectedDefault }
+    )
+}",Checks if a function or property has a default value.
+228,"fun createFakeOpenDescriptor(getFunction: FunctionDescriptor, classDescriptor: ClassDescriptor)","{
+            val copy = getFunction.original.copy(classDescriptor, Modality.OPEN, getFunction.visibility, getFunction.kind, false)
+            return copy.substitute(ANY_SUBSTITUTOR)!!
+        }",Creates a fake open descriptor for a function.
+229,fun withInstructionAdapter(block: InstructionAdapter.() -> Unit),"{
+    val tmpMethodNode = MethodNode()
+
+    InstructionAdapter(tmpMethodNode).apply(block)
+
+    return tmpMethodNode.instructions
+}",Performs operations with an instruction adapter.
+230,"fun resolveParametersTypes(context: BasicCallResolutionContext, ktFunction: KtFunction, typeResolver: TypeResolver)","{
+    val parameterList = ktFunction.valueParameterList ?: return null
+
+    return Array(parameterList.parameters.size) {
+        parameterList.parameters[it]?.typeReference?.let { resolveType(context, it, typeResolver) }
+    }
+}",Resolves parameter types for a function.
+231,fun box(),"{
+    var result = ""failed""
+    val r = java.lang.Runnable { result += ""K"" }
+    J().foo({ result = ""O"" }, r)
+    return result
+}",Tests method invocations with a combination of lambda expressions and function references.
+232,"fun checkContentsAndRemoves(context: CoroutineContext, vararg es: CoroutineContext.Element)","{
+        checkContents(context, *es)
+        for (e in es) {
+            checkContents(context.minusKey(e.key), *(es.toSet() - e).toTypedArray())
+        }
+    }",Checks coroutine context elements and removes them.
+233,fun computeJvmSignature(typeConversion: (FirTypeRef) -> ConeKotlinType? = FirTypeRef::coneTypeSafe),"{
+    val containingClass = containingClassLookupTag() ?: return null
+
+    return SignatureBuildingComponents.signature(containingClass.classId, computeJvmDescriptor(typeConversion = typeConversion))
+}",Computes the JVM signature for a method.
+234,fun yield(),"= kotlin.coroutines.intrinsics.suspendCoroutineUninterceptedOrReturn<Unit> {
+        continuation = it
+        kotlin.coroutines.intrinsics.COROUTINE_SUSPENDED
+    }",Implements a suspendable `yield` function.
+235,fun foo(javaClass: JavaClass<Int>),"{
+    val inner = javaClass.createInner<String>()
+    return <!TYPE_MISMATCH!>inner.doSomething(<!CONSTANT_EXPECTED_TYPE_MISMATCH!>1<!>, """") { }<!>
+}",Invokes a method with a generic parameterized Java class.
+236,"fun bar(a: A, b: B)","{
+    val result = b + (a as B)
+    checkSubtype<B>(<!DEBUG_INFO_SMARTCAST!>a<!>)
+    return result
+}",Performs addition operations with smart casts.
+237,fun writeImportedModule(module: JsImportedModule),"{
+        writeInt(internalizeString(module.externalName))
+        writeInt(internalizeName(module.internalName))
+        ifNotNull(module.plainReference) { writeExpression(it) }
+    }",Writes information about an imported module.
+238,fun parametersInKotlinEnumConstructor(),"{
+        val enumValue = kenum.KEnum.OK
+        Assert.assertEquals(""OK"", enumValue.name)
+        testAnnotationsInConstructor(enumValue::class)
+    }",Tests Kotlin enum constructors with parameters.
+239,fun getString(),"{
+    val s: suspend (Any, Any, Any, Any, Any) -> Unit = { _, _, _, _, _ -> }
+    return ""${s::class}""
+}",Retrieves the string representation of a lambda's class.
+240,fun binaryExpressionRecursiveVisitor(block: (KtBinaryExpression) -> Unit),"=
+    object : KtTreeVisitorVoid() {
+        override fun visitBinaryExpression(binaryExpression: KtBinaryExpression) {
+            super.visitBinaryExpression(binaryExpression)
+            block(binaryExpression)
+        }
+    }",Implements a visitor for binary expressions.
+241,fun test(noinline c: () -> Unit),"{
+    c()
+    val o = object: Runnable {
+        override fun run() {
+            c()
+        }
+    }
+    val l = { c() }
+    c.startCoroutine(EmptyContinuation)
+}",Tests function invocation with coroutines.
+242,fun build(),"{
+        return FirImportImpl(
+            source,
+            importedFqName,
+            isAllUnder,
+            aliasName,
+            aliasSource,
+        )
+    }",Builds a FIR import.
+243,fun isCharSequenceIndices(descriptor: CallableDescriptor),"=
+    descriptor.isTopLevelExtensionOnType(""indices"", ""kotlin.text"") {
+        KotlinBuiltIns.isCharSequenceOrNullableCharSequence(it)
+    }",Checks if a descriptor represents the `indices` function on `CharSequence`.
+244,"fun toMethodWithFlags(methods: Map<String, MethodNode>)","{
+        val method = methods[this] ?: return this
+        return ""$this ${method.access.methodFlags()}""
+    }",Converts a method name to a method signature with flags.
+245,"fun assertDependencyFilesMatches(@Language(""RegExp"") @RegEx @RegExp vararg fileMatchers: String?)","= apply {
+        assertDependencyFilesMatches(fileMatchers.filterNotNull().map(::Regex).toSet())
+    }",Asserts that dependency files match specified regular expressions.
+246,fun transformedArtifacts(),"= output
+            .lineSequence()
+            .filter { it.contains(""Transform composite metadata"") }
+            .mapNotNull { regex.find(it)?.groups?.get(1)?.value }
+            .map { File(it).name }
+            .toSet()",Extracts transformed artifact filenames from output lines.
+247,fun recordDelegatedSymbol(symbol: IrSymbol),"{
+        if (symbol is IrDelegatingSymbol<*, *, *>) {
+            delegatedSymbolMap[symbol] = symbol.delegate
+        }
+    }",Records delegated symbols in an IR.
+248,fun test(),"{
+    A.<!DEBUG_INFO_CALL(""fqName: pckg.entries; typeCall: variable""), DEPRECATED_ACCESS_TO_ENUM_ENTRY_COMPANION_PROPERTY!>entries<!>
+    A.Companion.<!DEBUG_INFO_CALL(""fqName: pckg.entries; typeCall: variable"")!>entries<!>
+}",Accesses entries from the `entries` property of an enum class `A`.
+249,fun test18(i: Int),"{
+    val x: Any? = materialize()
+    var y = x
+    do {
+        require(y is String)
+        x.<!UNRESOLVED_REFERENCE!>length<!>
+        y = """"
+    } while (i < 10)
+}","The function `test18` accepts an integer parameter. It initializes variables with a function result, asserts a type within a loop, accesses a property, and assigns a value. The loop continues while a condition holds."
