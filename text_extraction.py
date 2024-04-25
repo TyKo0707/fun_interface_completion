@@ -16,8 +16,6 @@ TEST_PATH = env.str("TEST_PATH")
 functions = {'simple_identifier': [], 'function_value_parameters': [], 'user_type': [],
              'modifiers': [], 'function_body': [], 'type_parameters': [], 'flags': []}
 
-primitive_types = ['integral', 'floating', 'boolean', 'void']
-
 
 def extract_methods(node: tree_sitter.Node, empty_func=False):
     """

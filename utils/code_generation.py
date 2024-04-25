@@ -16,28 +16,40 @@ def format_text_for_code_gen(row: pd.Series) -> str:
     text = ''
 
     # Add annotations to text
-    if not pd.isna(row.access_modifiers_annotation):
-        for annotation in row.access_modifiers_annotation.split(', '):
-            text += f"{annotation}\n"
+    if not pd.isna(row.modifiers):
+        for annotation in row.modifiers.split(', '):
+            if annotation.startswith('@'):
+                text += f"{annotation}\n"
+            else:
+                text += f"{annotation} "
 
-    # Add test-annotations (if there are any) to text
-    if not pd.isna(row.access_modifiers_test):
-        for annotation in row.access_modifiers_test.split(', '):
-            text += f"{annotation}\n"
+    # Different cases:
+    # - user_type = ''
+    # - user_type = IdeaSyncDetector, where we write it after the signature: fun (...): IdeaSyncDetector
+    # - user_type = Iterable<V>, List<R>, where we must set first element before function name
+    #   and second one as in the previous example: fun <V, R> Iterable<V>.funcName(...): List<R>
+    user_type = ''
+    if not pd.isna(row.user_type):
+        if len(row.user_type.split('>,')) > 1:
+            user_types = re.split(r",\s*(?![^<>]*>)", row.user_type)
+            try:
+                func_type, user_type = user_types[0], user_types[1]
+                row.simple_identifier = f'{func_type}.{row.simple_identifier}'
+            except:
+                user_type = user_types[0]
+        else:
+            user_type = row.user_type
 
     # Create signature for function (access modifiers, type identifier, formal parameters) and add it to text
-    parameters = '' if pd.isna(row.formal_parameters) else row.formal_parameters
-    signature = f"{row.access_modifiers.replace(', ', ' ')} {row.type_identifier} <extra_id_0>( {parameters} ) "
+    parameters = '' if pd.isna(row.function_value_parameters) else row.function_value_parameters
+    type_parameters = '' if pd.isna(row.type_parameters) else row.type_parameters + ' '
+    signature = 'fun ' + type_parameters + f'{row.simple_identifier}({parameters})'
     text += signature
+    if user_type != '':
+        text += f': {user_type}'
 
-    # Add code block without comments to text
-    if not pd.isna(row.block):
-        # Remove comments
-        code_block = re.sub(r'/\*.*?\*/', '', str(row.block), flags=re.DOTALL)
-        code_block = re.sub(r'//.*?\n', '', code_block)
-        text += code_block
-    else:
-        text += ';'
+    if row.is_single_expression:
+        text += ' +'
 
     return text
 
