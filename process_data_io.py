@@ -29,7 +29,7 @@ def extract_input_output_from_df(df: pd.DataFrame) -> pd.DataFrame:
     - df (pd.DataFrame): The input DataFrame containing function information.
 
     Returns:
-    - pd.DataFrame: A new DataFrame containing columns for function_id, input, label, is_multiline, is_test, and is_abstract.
+    - pd.DataFrame: A new DataFrame containing columns for function_id, signature, body, is_single_expression, is_test
     """
     inputs = []
 
