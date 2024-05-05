@@ -82,8 +82,105 @@ changes on both Kotlin and Python data.
 | True                   | True      | False  | False   | False    | True   |      22.6  |        0.105 |       0.169 |    0.156 |       0.122 |
 | True                   | True      | True   | False   | False    | False  |      26    |        0.019 |       0.039 |    0.098 |       0.051 |
 
+Total result:
+
+| edit_sim |   chrf_score |   precision |   recall |   f-measure |
+|---------:|-------------:|------------:|---------:|------------:|
+|    30.36 |        0.167 |       0.254 |    0.262 |       0.197 |
+
+
 * **Analysis**:
 
   - `is_single_expression`: Rows with `False` values tend to have higher scores, indicating easier or more accurate generation of non-single expressions for pre-trained model.
   - `is_test`: Rows with `True` values generally have lower `chrf_score` and `edit_sim` scores, suggesting challenges in generating accurate test cases.
   - Function signature lengths (`0-20`, `20-50`, `50-100`, `100+`) influence evaluation metrics, with some length ranges showing higher precision, recall, and F-measure scores. Best results were showed by functions with length of signature between 50 and 100.
+
+4. **Fine-tuning model on a given dataset**:
+* **Dataset Preparation**:
+  - Utilized AutoTokenizer to tokenize the prompt-output pairs with parameters: `truncation=True`, `max_length=max_input_length`, `padding="max_length"` where `max_input_length = 256`.
+  - The combined dataset was then split into training and validation sets using an 80/20 ratio.
+
+* **Model Loading**:
+  - Loaded the pre-trained model "microsoft/phi-1_5" using AutoModelForCausalLM.
+  - Modified the tokenizer's pad token to equal its eos token.
+  - Configured the model with BitsAndBytesConfig for quantization, specifying parameters such as `load_in_4bit`, `bnb_4bit_use_double_quant`, `bnb_4bit_quant_type`, and `bnb_4bit_compute_dtype`.
+
+* **Model Fine-tuning**:
+  - Initialized the LoraConfig with parameters like `r`, `lora_alpha`, `target_modules`, `lora_dropout`, `bias`, and `task_type`.
+  - Adapted the model using the get_peft_model function with the specified LoraConfig.
+  - Defined TrainingArguments specifying training parameters such as `output_dir`, `per_device_train_batch_size`, `gradient_accumulation_steps`, `learning_rate`, `lr_scheduler_type`, `save_strategy`, `logging_steps`, `max_steps`, and `num_train_epochs`.
+  - Trained the model using Trainer with the provided tokenized data and data collator.
+
+
+5. **Evaluating predictions using a fine-tuned model**: 
+Same preparation of data as in step 3 (using the same data for evaluation).
+* Evaluation results (**Python, pre-trained model**):
+
+| Metric           | Without Context | With Context |
+|:-----------------|----------------:|-------------:|
+| edit_sim         |           35.72 |         34.9 |
+| chrf_score       |          0.2457 |       0.2192 |
+| precision        |          0.2896 |       0.3134 |
+| recall           |          0.2932 |       0.2892 |
+| f-measure        |           0.293 |        0.317 |
+
+* Evaluation results (**Kotlin, pre-trained model**):
+
+| is_single_expression   | is_test   | 0-20   | 100+   | 20-50   | 50-100   |   edit_sim |   chrf_score |   precision |   recall |   f-measure |
+|:-----------------------|:----------|:-------|:-------|:--------|:---------|-----------:|-------------:|------------:|---------:|------------:|
+| False                  | False     | False  | False  | False   | True     |    58.3977 |    0.522263  |   0.543493  | 0.641533 |   0.588457  |
+| False                  | False     | False  | False  | True    | False    |    41.7174 |    0.368584  |   0.529928  | 0.532913 |   0.531416  |
+| False                  | False     | False  | True   | False   | False    |    56.9376 |    0.46517   |   0.695954  | 0.637513 |   0.665453  |
+| False                  | False     | True   | False  | False   | False    |    60.6124 |    0.278022  |   0.639985  | 0.58078  |   0.608947  |
+| False                  | True      | False  | False  | False   | True     |    46.4505 |    0.378497  |   0.592718  | 0.532008 |   0.560724  |
+| False                  | True      | False  | False  | True    | False    |    49.9454 |    0.264627  |   0.559953  | 0.481564 |   0.517808  |
+| False                  | True      | False  | True   | False   | False    |    54.8825 |    0.33489   |   0.54628   | 0.39486  |   0.458389  |
+| False                  | True      | True   | False  | False   | False    |    41.1035 |    0.127392  |   0.287383  | 0.379825 |   0.3272    |
+| True                   | False     | False  | False  | False   | True     |    67.4196 |    0.258307  |   0.370658  | 0.331652 |   0.350072  |
+| True                   | False     | False  | False  | True    | False    |    45.418  |    0.129458  |   0.182965  | 0.289482 |   0.224216  |
+| True                   | False     | False  | True   | False   | False    |    50.016  |    0.390693  |   0.443242  | 0.530357 |   0.482902  |
+| True                   | False     | True   | False  | False   | False    |    44.6294 |    0.0820584 |   0.185165  | 0.199921 |   0.19226   |
+| True                   | True      | False  | False  | False   | True     |    61.2647 |    0.464113  |   0.588534  | 0.535608 |   0.560825  |
+| True                   | True      | False  | False  | True    | False    |    38.877  |    0.119565  |   0.299     | 0.286631 |   0.292685  |
+| True                   | True      | False  | True   | False   | False    |    31.6565 |    0.147847  |   0.302047  | 0.279013 |   0.290073  |
+| True                   | True      | True   | False  | False   | False    |    42.8315 |    0.028052  |   0.0670864 | 0.178834 |   0.0975708 |
+
+
+## Executing program
+I didn't create a main file for executing the program because this doesn't really make sense, but you can run all the steps using the following instructions:
+
+
+0. **Installing requirements and setting env-variables**: Install all the requirements from the `requirements.txt` file. You also need to assign environment variables in the following way:
+```
+LANGUAGE_BUILDER_PATH='/Users/user/path_to_project/build/my-languages.so'
+KOTLIN_FILES_DIRECTORY='/Users/user/path_to_project/kotlin-files'
+UNPROCESSED_FUNCTIONS_DATASET='/Users/user/path_to_project/datasets/functions_df.csv'
+MODEL_CHECKPOINT='microsoft/phi-1_5'
+MAIN_DATASET='/Users/user/path_to_project/datasets/functions_df_inputs_outputs.csv
+```
+1. **Extracting data from the IntelliJ Community Project**: run the text_extraction.py file with the path to the directory with all the Kotlin files from the Kotlin project as an argument KOTLIN_FILES_DIRECTORY. Output will be saved to the datasets/functions_df.csv file.
+2. **Preprocessing data for evaluation and fine-tuning**: run `process_data_io.py` which will save the processed data to `datasets/functions_df_inputs_outputs.csv` file.
+3. **Evaluating predictions using a pre-trained model**: run `evaluation_pretrained.ipynb` and `generation_showup.ipynb`.
+4. **Fine-tuning and evaluating model on a given dataset**: open and run `fine_tuning.ipynb` file in google colab. 
+
+
+## Conclusion
+
+In this assignment, we focused on the task of method name generation in the context of code completion. The goal was to adapt a pre-trained Python-focused Transformer model, Phi-1.5, for generating method names in Kotlin code, and evaluate its performance on both Kotlin and Python datasets. Here's a summary of our findings and the steps we took:
+
+1. **Data Extraction and Preprocessing**:
+    - We extracted Kotlin code from a large open-source project, JetBrains/kotlin, and parsed method signatures using the tree-sitter library.
+    - Data preprocessing involved creating a dataset with features such as function ID, signature, body, and flags indicating signature length ranges.
+
+2. **Evaluation with Pre-trained Model**:
+    - We evaluated the performance of the pre-trained Phi-1.5 model on both Kotlin and Python datasets using metrics like Edit Similarity, CHRF Score, and ROUGE-1 Score.
+    - Results indicated improvements in code completion metrics when context (output) was considered, particularly in precision and F-measure.
+
+3. **Fine-tuning on Kotlin Dataset**:
+    - To further improve model performance on Kotlin code, we fine-tuned Phi-1.5 on a combined dataset of prompt-output pairs, leveraging techniques like quantization and LORA adaptation.
+    - Fine-tuning aimed to adapt the model to the specific characteristics of Kotlin code and enhance its ability to generate accurate and contextually relevant method names.
+
+4. **Evaluation with Fine-tuned Model**:
+    - We evaluated the fine-tuned model on both Kotlin and Python datasets, observing improvements in metrics like Edit Similarity, precision, and F-measure compared to the pre-trained model.
+
+Overall, our experiments demonstrated the effectiveness of fine-tuning the Phi-1.5 model on Kotlin data for method name generation. By leveraging a combination of pre-training and fine-tuning techniques, we were able to enhance the model's performance and suitability for code completion tasks in Kotlin, showcasing its potential for real-world applications in software development environments.
