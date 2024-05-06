@@ -127,7 +127,7 @@ Same preparation of data as in step 3 (using the same data for evaluation).
 | chrf_score       |          0.2457 |       0.2192 |
 | precision        |          0.2896 |       0.3134 |
 | recall           |          0.2932 |       0.2892 |
-| f-measure        |           0.293 |        0.317 |
+| f-measure        |           0.293 |        0.299 |
 
 * Evaluation results (**Kotlin, fine-tuned model**):
 
