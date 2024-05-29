@@ -1,4 +1,4 @@
-# Method name generation
+# Code completion
 
 This assignment focuses on working on a code completion task. 
 First, choose a large open-source project mostly written in Kotlin, 
